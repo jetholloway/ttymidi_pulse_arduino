@@ -16,7 +16,7 @@ void setup() {
 
 void loop()
 {
-  unsigned int vel = faderPosition() >> 6;
+  unsigned int vel = faderPosition();
 //  updateFaderMidi(vel);
   // read the value from the sensor:
 
@@ -24,11 +24,11 @@ void loop()
   digitalWrite(ledPin, HIGH);  
   // stop the program for <sensorValue> milliseconds:
   updateFaderMidi(vel);
-  delay(vel);          
+  delay(vel>>6);
   // turn the ledPin off:        
   digitalWrite(ledPin, LOW);   
   // stop the program for for <sensorValue> milliseconds:
-  delay(vel);                  
+  delay(vel>>6);
 }
 
 //Returns a MIDI pitch bend value for the fader's current position
