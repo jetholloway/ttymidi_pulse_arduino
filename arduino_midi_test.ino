@@ -1,6 +1,11 @@
 #include "/home/jet/tmp/arduino_midi_test/MIDI/MIDI.h"
 
-MIDI_CREATE_DEFAULT_INSTANCE();
+struct MySettings : public midi::DefaultSettings
+{
+  static const bool UseRunningStatus = false; // Messes with my old equipment!
+};
+
+MIDI_CREATE_CUSTOM_INSTANCE(HardwareSerial, Serial, MIDI, MySettings);
 
 const int ledPin = 13;      // select the pin for the LED
 
