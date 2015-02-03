@@ -1,3 +1,7 @@
+#include "/home/jet/tmp/arduino_midi_test/MIDI/MIDI.h"
+
+MIDI_CREATE_DEFAULT_INSTANCE();
+
 const int ledPin = 13;      // select the pin for the LED
 
 //Inputs
@@ -11,6 +15,9 @@ const int   faderChannel    = 1;     //Value from 1-8
 void setup() {
   // declare the ledPin as an OUTPUT:
   pinMode(ledPin, OUTPUT);
+
+  MIDI.begin();          // Launch MIDI and listen to channel 4
+
   Serial.begin(115200);
 }
 
@@ -50,9 +57,5 @@ unsigned int faderPosition()
 
 void updateFaderMidi( int velocity )
 {
-  byte channelData = 0xE0 + (faderChannel - 1);
-                                           // MIDI Message:
-  Serial.write(channelData);               //  E(PitchBend)  Channel (0-9)
-  Serial.write(velocity & 0x7F);           //  Least Sig Bits of Data
-  Serial.write((velocity >> 7) & 0x7F);    //  Most  Sig Bits of Data
+  MIDI.sendPitchBend(velocity - 8192, faderChannel);
 }
