@@ -31,12 +31,12 @@ MIDI_CREATE_CUSTOM_INSTANCE(HardwareSerial, Serial, MIDI, MySettings);
 
 // Pins
 const int ledPin = 13;          // Select the pin for the LED
-const int wiper  = 0;           // Position of fader relative to GND (Analog 0)
+const int fader_analog_pin  = 0;           // Position of fader relative to GND (Analog 0)
 
 // Variables
-const int faderMax     = 1023;  // Value read by fader's maximum position (0-1023)
-const int faderMin     = 0;     // Value read by fader's minimum position (0-1023)
-const int faderChannel = 1;     // Value from 1-8
+const int fader_max          = 1023;  // Value read by fader's maximum position (0-1023)
+const int fader_min          = 0;     // Value read by fader's minimum position (0-1023)
+const int fader_midi_channel = 1;     // Value from 1-16
 
 void setup()
 {
@@ -68,20 +68,21 @@ void loop()
 // Cases ensure that there is a -infinity (min) and max value despite possible math error
 unsigned int faderPosition()
 {
-    int position = analogRead(wiper);
-    int returnValue = 0;
+    // Analog input position, and corresponding MIDI position
+    int analog_pos = analogRead(fader_analog_pin);
+    int midi_pos = 0;
 
-    if (position <= faderMin)
-        returnValue = 0;
-    else if (position >= faderMax)
-        returnValue = 16383;
+    if (analog_pos <= fader_min)
+        midi_pos = 0;
+    else if (analog_pos >= fader_max)
+        midi_pos = 16383;
     else
-        returnValue = ((long int)(position-faderMin)*16383) / (faderMax-faderMin);
+        midi_pos = ((long int)(analog_pos-fader_min)*16383) / (fader_max-fader_min);
 
-    return returnValue;
+    return midi_pos;
 }
 
 void updateFaderMidi(int velocity)
 {
-    MIDI.sendPitchBend(velocity - 8192, faderChannel);
+    MIDI.sendPitchBend(velocity - 8192, fader_midi_channel);
 }
