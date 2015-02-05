@@ -1,4 +1,26 @@
+#include <Arduino.h>
 #include "/home/jet/tmp/arduino_midi_test/MIDI/MIDI.h"
+
+unsigned int faderPosition();
+void updateFaderMidi(int velocity);
+
+int main(void)
+{
+    init();
+
+#if defined(USBCON)
+    USBDevice.attach();
+#endif
+    setup();
+
+    for (;;)
+    {
+        loop();
+        if (serialEventRun) serialEventRun();
+    }
+
+    return 0;
+}
 
 struct MySettings : public midi::DefaultSettings
 {
