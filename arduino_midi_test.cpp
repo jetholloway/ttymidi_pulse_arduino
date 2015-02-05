@@ -1,8 +1,7 @@
 #include <Arduino.h>
 #include "/home/jet/tmp/arduino_midi_test/MIDI/MIDI.h"
 
-unsigned int faderPosition();
-void updateFaderMidi(int velocity);
+void do_fader();
 
 int main(void)
 {
@@ -51,22 +50,21 @@ void setup()
 
 void loop()
 {
-    // Eead the value from the sensor:
-    unsigned int vel = faderPosition();
-    updateFaderMidi(vel);
+    // Read the value from the sensor:
+    do_fader();
 
     // Turn the ledPin on for vel>>6 milliseconds
     digitalWrite(ledPin, HIGH);
-    delay(vel>>6);
+    delay(250);
 
     // Turn the ledPin off for vel>>6 milliseconds
     digitalWrite(ledPin, LOW);
-    delay(vel>>6);
+    delay(250);
 }
 
 // Returns a MIDI pitch bend value for the fader's current position
 // Cases ensure that there is a -infinity (min) and max value despite possible math error
-unsigned int faderPosition()
+void do_fader()
 {
     // Analog input position, and corresponding MIDI position
     int analog_pos = analogRead(fader_analog_pin);
@@ -79,10 +77,5 @@ unsigned int faderPosition()
     else
         midi_pos = ((long int)(analog_pos-fader_min)*16383) / (fader_max-fader_min);
 
-    return midi_pos;
-}
-
-void updateFaderMidi(int velocity)
-{
-    MIDI.sendPitchBend(velocity - 8192, fader_midi_channel);
+    MIDI.sendPitchBend(midi_pos - 8192, fader_midi_channel);
 }
