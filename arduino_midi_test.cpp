@@ -68,6 +68,13 @@ void loop()
 
 void do_fader( unsigned int fader_i )
 {
+    //   The Arduino only has one ADC shared between all channels.  This is an
+    // extra read to flush the old value out of the sample-and-hold-buffer (or
+    // however it works internally).  If you don't have this, the previously
+    // read analogue value will affect this one.
+    // I have tested it, and only one extra read is necessary
+    analogRead(fader_analog_pin[fader_i]);
+
     // Analog input position, and corresponding MIDI position
     int analog_pos = analogRead(fader_analog_pin[fader_i]);
     int midi_pos = 0;
