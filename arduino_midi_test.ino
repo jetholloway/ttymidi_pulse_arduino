@@ -28,18 +28,16 @@ void setup() {
 
 void loop()
 {
-  unsigned int vel = faderPosition();
-//  updateFaderMidi(vel);
   // read the value from the sensor:
-
-  // turn the ledPin on
-  digitalWrite(ledPin, HIGH);  
-  // stop the program for <sensorValue> milliseconds:
+  unsigned int vel = faderPosition();
   updateFaderMidi(vel);
+
+  // turn the ledPin on for vel>>6 milliseconds
+  digitalWrite(ledPin, HIGH);
   delay(vel>>6);
-  // turn the ledPin off:        
-  digitalWrite(ledPin, LOW);   
-  // stop the program for for <sensorValue> milliseconds:
+
+  // turn the ledPin off for vel>>6 milliseconds
+  digitalWrite(ledPin, LOW);
   delay(vel>>6);
 }
 
@@ -49,7 +47,7 @@ unsigned int faderPosition()
 {
   int position = analogRead(wiper);
   int returnValue = 0;
-  
+
   if (position <= faderMin)
     returnValue = 0;
   else if (position >= faderMax)
@@ -60,7 +58,7 @@ unsigned int faderPosition()
   return returnValue;
 }
 
-void updateFaderMidi( int velocity )
+void updateFaderMidi(int velocity)
 {
   MIDI.sendPitchBend(velocity - 8192, faderChannel);
 }
