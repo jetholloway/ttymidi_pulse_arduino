@@ -59,13 +59,7 @@ void loop()
     for ( unsigned int i = 0; i < nr_faders; i++ )
         do_fader(i);
 
-    // Turn the ledPin on for vel>>6 milliseconds
-    digitalWrite(ledPin, HIGH);
-    delay(250);
-
-    // Turn the ledPin off for vel>>6 milliseconds
-    digitalWrite(ledPin, LOW);
-    delay(250);
+    delay(10);
 }
 
 void do_fader( unsigned int fader_i )
