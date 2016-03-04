@@ -5,4 +5,6 @@ ARDUINO_PORT = /dev/arduino
 
 ARDUINO_LIBS =
 
+OPTIMIZATION_LEVEL = s
+
 include /usr/share/arduino/Arduino.mk
