@@ -1,5 +1,5 @@
 #include <Arduino.h>
-#include "/home/jet/tmp/arduino_midi_test/MIDI/MIDI.h"
+#include "MIDI/MIDI.h"
 
 void do_fader( unsigned int fader_i );
 
