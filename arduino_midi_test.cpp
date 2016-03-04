@@ -36,7 +36,7 @@ const int fader_max          = 1023;  // Value read by fader's maximum position 
 const int fader_min          = 0;     // Value read by fader's minimum position (0-1023)
 
 // Descriptions of Faders
-const int fader_difference = 1;         // Fader value must change by *more* than this
+const int fader_difference = 2;         // Fader value must change by *more* than this
 const unsigned int nr_faders   = 3;
 const int fader_analog_pin[]   = {0,1,2};
 const int fader_midi_channel[] = {1,2,3};
