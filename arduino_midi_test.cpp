@@ -50,7 +50,7 @@ void setup()
     // Launch MIDI
     MIDI.begin();
 
-    Serial.begin(115200);
+    Serial.begin(38400);
 }
 
 void loop()
