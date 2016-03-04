@@ -29,14 +29,14 @@ struct MySettings : public midi::DefaultSettings
 MIDI_CREATE_CUSTOM_INSTANCE(HardwareSerial, Serial, MIDI, MySettings);
 
 // Pins
-const int ledPin = 13;          // Select the pin for the LED
+const int ledPin = 13;      // Select the pin for the LED
 
-// Variables
-const int fader_max          = 1023;  // Value read by fader's maximum position (0-1023)
-const int fader_min          = 0;     // Value read by fader's minimum position (0-1023)
+// Constants
+const int fader_max = 1023; // Value read by fader's maximum position (0-1023)
+const int fader_min = 0;    // Value read by fader's minimum position (0-1023)
 
 // Descriptions of Faders
-const int fader_difference = 2;         // Fader value must change by *more* than this
+const int fader_difference = 2; // Fader value must change by *more* than this
 const unsigned int nr_faders   = 3;
 const int fader_analog_pin[]   = {0,1,2};
 const int fader_midi_channel[] = {1,2,3};
