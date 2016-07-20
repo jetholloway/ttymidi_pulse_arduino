@@ -20,6 +20,7 @@ const int fader_midi_channel[] = {1,2,3};
 int fader_prev[]               = {0,0,0};
 
 void do_fader( unsigned int fader_i );
+void send_analogue_pos_over_MIDI( int MIDI_channel, int analog_pos );
 
 //==============================================================================
 
@@ -55,6 +56,20 @@ int main(void)
 	return 0;
 }
 
+void send_analogue_pos_over_MIDI( int MIDI_channel, int analog_pos )
+{
+	int midi_pos = 0;
+
+	if (analog_pos <= fader_min)
+		midi_pos = 0;
+	else if (analog_pos >= fader_max)
+		midi_pos = 16383;
+	else
+		midi_pos = ((long int)(analog_pos-fader_min)*16383) / (fader_max-fader_min);
+
+	MIDI.sendPitchBend(midi_pos - 8192, MIDI_channel);
+}
+
 void do_fader( unsigned int fader_i )
 {
 	//   The Arduino only has one ADC shared between all channels.  This is an
@@ -66,7 +81,6 @@ void do_fader( unsigned int fader_i )
 
 	// Analog input position, and corresponding MIDI position
 	int analog_pos = analogRead(fader_analog_pin[fader_i]);
-	int midi_pos = 0;
 
 	// Only bother with it if the value has changed sufficiently
 	if ( abs(analog_pos-fader_prev[fader_i]) > fader_difference )
@@ -82,13 +96,6 @@ void do_fader( unsigned int fader_i )
 				fader_prev[fader_i]--;
 		}
 
-		if (analog_pos <= fader_min)
-			midi_pos = 0;
-		else if (analog_pos >= fader_max)
-			midi_pos = 16383;
-		else
-			midi_pos = ((long int)(analog_pos-fader_min)*16383) / (fader_max-fader_min);
-
-		MIDI.sendPitchBend(midi_pos - 8192, fader_midi_channel[fader_i]);
+		send_analogue_pos_over_MIDI( fader_midi_channel[fader_i], analog_pos );
 	}
 }
