@@ -28,9 +28,6 @@ struct MySettings : public midi::DefaultSettings
 
 MIDI_CREATE_CUSTOM_INSTANCE(HardwareSerial, Serial, MIDI, MySettings);
 
-// Pins
-const int ledPin = 13;      // Select the pin for the LED
-
 // Constants
 const int fader_max = 1023; // Value read by fader's maximum position (0-1023)
 const int fader_min = 0;    // Value read by fader's minimum position (0-1023)
@@ -44,9 +41,6 @@ int fader_prev[]               = {0,0,0};
 
 void setup()
 {
-	// Declare the ledPin as an OUTPUT:
-	pinMode(ledPin, OUTPUT);
-
 	// Launch MIDI
 	MIDI.begin();
 
