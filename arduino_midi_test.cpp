@@ -32,36 +32,27 @@ int main(void)
 #if defined(USBCON)
 	USBDevice.attach();
 #endif
-	setup();
 
-	for (;;)
-	{
-		loop();
-
-		// This is not needed.  Only if we want to receive over RS-232
-		if ( serialEventRun )
-			serialEventRun();
-	}
-
-	return 0;
-}
-
-void setup()
-{
 	// Initialize MIDI
 	MIDI.begin();
 
 	// Initialise serial port
 	Serial.begin(38400);
-}
 
-void loop()
-{
-	// Run main functionality for each fader
-	for ( unsigned int i = 0; i < nr_faders; i++ )
-		do_fader(i);
+	while ( true )
+	{
+		// Run main functionality for each fader
+		for ( unsigned int i = 0; i < nr_faders; i++ )
+			do_fader(i);
 
-	delay(10);
+		// This is not needed.  Only if we want to receive over RS-232
+		if ( serialEventRun )
+			serialEventRun();
+
+		delay(10);
+	}
+
+	return 0;
 }
 
 void do_fader( unsigned int fader_i )
