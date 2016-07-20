@@ -1,7 +1,27 @@
 #include <Arduino.h>
 #include "MIDI/MIDI.h"
 
+struct MySettings : public midi::DefaultSettings
+{
+	static const bool UseRunningStatus = false; // Messes with my old equipment!
+};
+
+MIDI_CREATE_CUSTOM_INSTANCE(HardwareSerial, Serial, MIDI, MySettings);
+
+// Constants
+const int fader_max = 1023; // Value read by fader's maximum position (0-1023)
+const int fader_min = 0;    // Value read by fader's minimum position (0-1023)
+
+// Descriptions of Faders
+const int fader_difference = 2; // Fader value must change by *more* than this
+const unsigned int nr_faders   = 3;
+const int fader_analog_pin[]   = {0,1,2};
+const int fader_midi_channel[] = {1,2,3};
+int fader_prev[]               = {0,0,0};
+
 void do_fader( unsigned int fader_i );
+
+//==============================================================================
 
 int main(void)
 {
@@ -20,24 +40,6 @@ int main(void)
 
 	return 0;
 }
-
-struct MySettings : public midi::DefaultSettings
-{
-	static const bool UseRunningStatus = false; // Messes with my old equipment!
-};
-
-MIDI_CREATE_CUSTOM_INSTANCE(HardwareSerial, Serial, MIDI, MySettings);
-
-// Constants
-const int fader_max = 1023; // Value read by fader's maximum position (0-1023)
-const int fader_min = 0;    // Value read by fader's minimum position (0-1023)
-
-// Descriptions of Faders
-const int fader_difference = 2; // Fader value must change by *more* than this
-const unsigned int nr_faders   = 3;
-const int fader_analog_pin[]   = {0,1,2};
-const int fader_midi_channel[] = {1,2,3};
-int fader_prev[]               = {0,0,0};
 
 void setup()
 {
