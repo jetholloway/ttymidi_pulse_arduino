@@ -26,6 +26,9 @@ void send_analogue_pos_over_MIDI( int MIDI_channel, int analog_pos );
 
 int main(void)
 {
+	int loop_counter = 0;
+	int ping_fader_i = 0;
+
 	// Initialise the AVR chip
 	init();
 
@@ -46,10 +49,20 @@ int main(void)
 		for ( unsigned int i = 0; i < nr_faders; i++ )
 			do_fader(i);
 
+		// Every second, just send one of the fader values again
+		if ( loop_counter % 100 == 0 )
+		{
+			send_analogue_pos_over_MIDI( fader_midi_channel[ping_fader_i], fader_prev[ping_fader_i]);
+
+			// Cycle through all the faders
+			ping_fader_i = (ping_fader_i + 1) % nr_faders;
+		}
+
 		// This is not needed.  Only if we want to receive over RS-232
 		if ( serialEventRun )
 			serialEventRun();
 
+		loop_counter++;
 		delay(10);
 	}
 
