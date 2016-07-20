@@ -25,8 +25,10 @@ void do_fader( unsigned int fader_i );
 
 int main(void)
 {
+	// Initialise the AVR chip
 	init();
 
+	// Some shit that was defined in the default arduino "main()" function
 #if defined(USBCON)
 	USBDevice.attach();
 #endif
@@ -35,7 +37,10 @@ int main(void)
 	for (;;)
 	{
 		loop();
-		if (serialEventRun) serialEventRun();
+
+		// This is not needed.  Only if we want to receive over RS-232
+		if ( serialEventRun )
+			serialEventRun();
 	}
 
 	return 0;
@@ -43,9 +48,10 @@ int main(void)
 
 void setup()
 {
-	// Launch MIDI
+	// Initialize MIDI
 	MIDI.begin();
 
+	// Initialise serial port
 	Serial.begin(38400);
 }
 
