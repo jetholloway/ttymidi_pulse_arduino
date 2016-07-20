@@ -49,7 +49,7 @@ void setup()
 
 void loop()
 {
-	// Read the value from the sensor:
+	// Run main functionality for each fader
 	for ( unsigned int i = 0; i < nr_faders; i++ )
 		do_fader(i);
 
@@ -72,7 +72,7 @@ void do_fader( unsigned int fader_i )
 	// Only bother with it if the value has changed sufficiently
 	if ( abs(analog_pos-fader_prev[fader_i]) > fader_difference )
 	{
-		// If the value changes loads, then just accept the new value
+		// If the value changes by a lot, then just accept the new value
 		if ( abs(analog_pos-fader_prev[fader_i]) > 2*fader_difference )
 			fader_prev[fader_i] = analog_pos;
 		else // If the new value is just outside the range of accepted values, then just tweak the prev value
