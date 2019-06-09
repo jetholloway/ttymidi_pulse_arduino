@@ -32,7 +32,7 @@ int main(void)
 	// Initialise the AVR chip
 	init();
 
-	// Some shit that was defined in the default arduino "main()" function
+	// Something that was in the default arduino "main()" function
 #if defined(USBCON)
 	USBDevice.attach();
 #endif
