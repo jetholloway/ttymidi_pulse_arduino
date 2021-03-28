@@ -24,4 +24,6 @@ ARDUINO_LIBS =
 
 OPTIMIZATION_LEVEL = s
 
+CXX_FLAGS = -Wall -Wcast-align -Wconversion -Wextra -Wfloat-equal -Winit-self -Winline -Wmissing-declarations -Wmissing-include-dirs -Wno-long-long -Wpointer-arith -Wredundant-decls -Wshadow -Wswitch-default -Wswitch-enum -Wundef -Wuninitialized -Wunreachable-code -Wwrite-strings -Wzero-as-null-pointer-constant
+
 include /usr/share/arduino/Arduino.mk
