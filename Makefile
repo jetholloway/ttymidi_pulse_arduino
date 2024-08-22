@@ -16,8 +16,12 @@
 #	along with ttymidi_pulse_arduino.  If not, see <http://www.gnu.org/licenses/>.
 
 ARDUINO_DIR = /usr/share/arduino
+AVR_TOOLS_DIR = /usr
+AVRDUDE_CONF = /usr/share/arduino/hardware/tools/avrdude.conf
 
 BOARD_TAG    = diecimila
+BOARD_SUB    = atmega168
+
 ARDUINO_PORT = /dev/arduino
 
 ARDUINO_LIBS =
